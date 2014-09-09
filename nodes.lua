@@ -323,3 +323,23 @@ minetest.register_node("caverealms:mushroom_gills", {
 	drawtype = "plantlike",
 	paramtype = "light",
 })
+
+local obsidian_glow = {7, 5, 2, 0}
+
+for i in ipairs(obsidian_glow) do
+	if i == 1 then
+		nodename = "caverealms:obsidian"
+	else
+		nodename = "caverealms:obsidian_" .. i
+	end
+	minetest.register_node(nodename, {
+		description = "Obsidian",
+		tiles = {"default_obsidian.png"},
+		is_ground_content = true,
+		sounds = default.node_sound_stone_defaults(),
+		groups = {cracky=1,level=2},
+		light_source = obsidian_glow[i],
+		drop = "default:obsidian",
+		paramtype = "light",
+	})
+end

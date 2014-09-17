@@ -337,7 +337,9 @@ for i in ipairs(obsidian_glow) do
 		tiles = {"default_obsidian.png"},
 		is_ground_content = true,
 		sounds = default.node_sound_stone_defaults(),
-		groups = {cracky=1,level=2},
+		groups = {
+			cracky=1, level=2, not_in_creative_inventory = 1
+		},
 		light_source = obsidian_glow[i],
 		drop = "default:obsidian",
 		paramtype = "light",

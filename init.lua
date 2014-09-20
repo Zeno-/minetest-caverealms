@@ -123,6 +123,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local c_worm = minetest.get_content_id("caverealms:glow_worm")
 	local c_iciu = minetest.get_content_id("caverealms:icicle_up")
 	local c_icid = minetest.get_content_id("caverealms:icicle_down")
+	local c_coal_block = minetest.get_content_id("default:coalblock")
 
 	local c_obsidian = {
 		minetest.get_content_id("caverealms:obsidian"),
@@ -135,6 +136,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	if minp.y <= DEEPCAVES_YMAX then
 		allow_deep_cave_biomes = true
 	end
+
+	local deep_cave_shell_type = math.random()
 
 	--mandatory values
 	local sidelen = x1 - x0 + 1 --length of a mapblock
@@ -212,9 +215,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					--ceiling
 					local ai = area:index(x,y+1,z) --above index
 					if data[ai] == c_stone and data[vi] == c_air then --ceiling
-						if allow_deep_cave_biomes and biome == 6 then
-							data[ai] = c_obsidian[math.random(1, #c_obsidian)]
-							data[vi] = c_obsidian[math.random(1, #c_obsidian)]
+						if biome == 6 then
+							if deep_cave_shell_type > 0.6 then
+								data[ai] = c_obsidian[math.random(1, #c_obsidian)]
+								data[vi] = c_obsidian[math.random(1, #c_obsidian)]
+							else
+								data[ai] = c_coal_block
+								data[vi] = c_coal_block
+							end
 						end
 
 						if math.random() < ICICHA and (biome == 4 or biome == 5) then
@@ -285,8 +293,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							end
 						elseif biome == 6 then
 							local bi = area:index(x,y-1,z)
-							data[vi] = c_obsidian[math.random(1, #c_obsidian)]
-							data[bi] = c_obsidian[math.random(1, #c_obsidian)]
+							if deep_cave_shell_type > 0.6 then
+								data[bi] = c_obsidian[math.random(1, #c_obsidian)]
+								data[vi] = c_obsidian[math.random(1, #c_obsidian)]
+							else
+								data[bi] = c_coal_block
+								data[vi] = c_coal_block
+							end
 						else
 							print("[caverealms] Unknown cave biome")
 						end
@@ -294,7 +307,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						if math.random() < STAGCHA then
 							caverealms:stalagmite(x,y,z, area, data)
 						end
-						if math.random() < CRYSTAL or (biome == 6 and math.random() < CRYSTAL*2) then
+						if math.random() < CRYSTAL or (biome == 6 and math.random() < CRYSTAL*1.5) then
 							caverealms:crystal_stalagmite(x,y,z, area, data, biome)
 						end
 					end

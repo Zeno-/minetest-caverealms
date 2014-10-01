@@ -55,7 +55,7 @@ minetest.register_node("caverealms:glow_ore", {
 	is_ground_content = true,
 	groups = {cracky=2},
 	sounds = default.node_sound_glass_defaults(),
-	light_source = 10,
+	light_source = 12,
 	paramtype = "light",
 })
 
@@ -66,7 +66,7 @@ minetest.register_node("caverealms:glow_emerald_ore", {
 	is_ground_content = true,
 	groups = {cracky=2},
 	sounds = default.node_sound_glass_defaults(),
-	light_source = 10,
+	light_source = 12,
 	paramtype = "light",
 })
 
@@ -144,7 +144,7 @@ for i in ipairs(glow_gem_size) do
 		is_ground_content = true,
 		groups = {cracky=3, oddly_breakable_by_hand=1},
 		sounds = default.node_sound_glass_defaults(),
-		light_source = 11,
+		light_source = 12,
 		paramtype = "light",
 		drawtype = "plantlike",
 		walkable = false,
@@ -218,6 +218,8 @@ minetest.register_node("caverealms:stone_with_lichen", {
 	is_ground_content = true,
 	groups = {crumbly=3},
 	drop = 'default:cobble',
+	light_source = 2,
+	paramtype = "light",
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
 	}),
@@ -229,6 +231,8 @@ minetest.register_node("caverealms:stone_with_algae", {
 	tiles = {"default_cobble.png^caverealms_algae.png", "default_cobble.png", "default_cobble.png^caverealms_algae_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
+	light_source = 2,
+	paramtype = "light",
 	drop = 'default:cobble',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.25},
@@ -285,7 +289,7 @@ minetest.register_node("caverealms:mycena", {
 	wield_image = "caverealms_mycena.png",
 	is_ground_content = true,
 	groups = {oddly_breakable_by_hand=3},
-	light_source = 6,
+	light_source = 5,
 	paramtype = "light",
 	drawtype = "plantlike",
 	walkable = false,

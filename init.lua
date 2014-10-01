@@ -107,6 +107,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local c_stone = minetest.get_content_id("default:stone")
 	local c_water = minetest.get_content_id("default:water_source")
 	local c_lava = minetest.get_content_id("default:lava_source")
+	local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
 	local c_ice = minetest.get_content_id("default:ice")
 	local c_thinice = minetest.get_content_id("caverealms:thin_ice")
 	local c_crystal = minetest.get_content_id("caverealms:glow_crystal")
@@ -124,6 +125,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local c_iciu = minetest.get_content_id("caverealms:icicle_up")
 	local c_icid = minetest.get_content_id("caverealms:icicle_down")
 	local c_coal_block = minetest.get_content_id("default:coalblock")
+	local c_diamond_block = minetest.get_content_id("default:diamondblock")
+
 
 	local c_obsidian = {
 		minetest.get_content_id("caverealms:obsidian"),
@@ -131,6 +134,16 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		minetest.get_content_id("caverealms:obsidian_3"),
 		minetest.get_content_id("caverealms:obsidian_4"),
 	}
+
+	local c_hard_rock
+	if minetest.get_modpath("morestones") then
+		c_hard_rock = minetest.get_content_id("morestones:comendite")
+	elseif minetest.get_modpath("gloopblocks") then
+		c_hard_rock = minetest.get_content_id("default:basalt")
+	else
+		c_hard_rock = minetest.get_content_id("default:stone_with_diamond")
+	end
+
 
 	local allow_deep_cave_biomes = false
 	if minp.y <= DEEPCAVES_YMAX then
@@ -152,6 +165,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local nixyz = 1 --3D node index
 	local nixz = 1 --2D node index
 	local nixyz2 = 1 --second 3D index for second loop
+
 
 	for z = z0, z1 do -- for each xy plane progressing northwards
 		--structure loop
@@ -216,12 +230,18 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					local ai = area:index(x,y+1,z) --above index
 					if data[ai] == c_stone and data[vi] == c_air then --ceiling
 						if biome == 6 then
-							if deep_cave_shell_type > 0.6 then
+							if deep_cave_shell_type > 0.65 then
 								data[ai] = c_obsidian[math.random(1, #c_obsidian)]
 								data[vi] = c_obsidian[math.random(1, #c_obsidian)]
-							else
+							elseif deep_cave_shell_type > 0.35 then
 								data[ai] = c_coal_block
 								data[vi] = c_coal_block
+							elseif deep_cave_shell_type > 0.15 then
+								data[ai] = c_hard_rock
+								data[vi] = c_hard_rock
+							else
+								data[ai] = c_diamond_block
+								data[vi] = c_diamond_block
 							end
 						end
 
@@ -293,12 +313,15 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							end
 						elseif biome == 6 then
 							local bi = area:index(x,y-1,z)
-							if deep_cave_shell_type > 0.6 then
+							if deep_cave_shell_type > 0.65 then
 								data[bi] = c_obsidian[math.random(1, #c_obsidian)]
 								data[vi] = c_obsidian[math.random(1, #c_obsidian)]
-							else
+							elseif deep_cave_shell_type > 0.35 then
 								data[bi] = c_coal_block
 								data[vi] = c_coal_block
+							else
+								data[bi] = c_hard_rock
+								data[vi] = c_hard_rock
 							end
 						else
 							print("[caverealms] Unknown cave biome")

@@ -26,6 +26,7 @@ end
 local YMIN = caverealms.config.ymin -- Approximate realm limits.
 local YMAX = caverealms.config.ymax
 local DEEPCAVES_YMAX = caverealms.config.deepcaves_ymax
+local DEEP_DEEP_CAVES_YMAZ = caverealms.config.deepdeepcaves_ymax
 local TCAVE = caverealms.config.tcave --0.5 -- Cave threshold. 1 = small rare caves, 0.5 = 1/3rd ground volume, 0 = 1/2 ground volume
 local BLEND = 128 -- Cave blend distance near YMIN, YMAX
 
@@ -135,20 +136,24 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		minetest.get_content_id("caverealms:obsidian_4"),
 	}
 
+	local allow_deep_cave_biomes = false
+	if minp.y <= DEEPCAVES_YMAX then
+		allow_deep_cave_biomes = true
+	end
+
 	local c_hard_rock
 	if minetest.get_modpath("morestones") then
-		c_hard_rock = minetest.get_content_id("morestones:comendite")
+		if (minp.y <= DEEP_DEEP_CAVES_YMAZ) then
+			c_hard_rock = minetest.get_content_id("morestones:travertine")
+		else
+			c_hard_rock = minetest.get_content_id("morestones:comendite")
+		end
 	elseif minetest.get_modpath("gloopblocks") then
 		c_hard_rock = minetest.get_content_id("default:basalt")
 	else
 		c_hard_rock = minetest.get_content_id("default:stone_with_diamond")
 	end
 
-
-	local allow_deep_cave_biomes = false
-	if minp.y <= DEEPCAVES_YMAX then
-		allow_deep_cave_biomes = true
-	end
 
 	local deep_cave_shell_type = math.random()
 

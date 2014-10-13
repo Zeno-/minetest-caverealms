@@ -289,7 +289,7 @@ minetest.register_node("caverealms:mycena", {
 	wield_image = "caverealms_mycena.png",
 	is_ground_content = true,
 	groups = {oddly_breakable_by_hand=3},
-	light_source = 5,
+	light_source = 8,
 	paramtype = "light",
 	drawtype = "plantlike",
 	walkable = false,

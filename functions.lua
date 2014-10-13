@@ -125,7 +125,8 @@ function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
 		minetest.get_content_id("caverealms:obsidian_3"),
 		minetest.get_content_id("caverealms:obsidian_4"),
 	}
-	
+	local c_embers = minetest.get_content_id("fake_fire:embers");
+
 	--for randomness
 	local mode = 1
 	if math.random(15) == 1 then
@@ -138,7 +139,7 @@ function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
 			mode = 1
 		end
 	end
-	if biome == 4 or biome == 5 then
+	if biome > 4 then
 		if math.random(3) == 1 then
 			mode = 2
 		end
@@ -155,10 +156,13 @@ function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
  	local nid_b
 	local nid_s = c_stone --stone base, will be rewritten to ice in certain biomes
 
+	local hell = false
+
  	if biome > 3 then
 		if biome == 6 then
 			nid_s = c_obsidian[math.random(1, #c_obsidian)]
 			biome = 1
+			hell = true
  		else
 			if mode == 1 then
 				nid_s = c_ice
@@ -167,13 +171,18 @@ function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
 		end
 	end
 
-	if mode == 1 then
- 		nid_a = stalids[biome][1][1]
- 		nid_b = stalids[biome][1][2]
- 	else
- 		nid_a = stalids[biome][2][1]
- 		nid_b = stalids[biome][2][2]
- 	end
+	if (hell) then
+		nid_a = c_embers
+		nid_b = c_embers
+	else
+		if mode == 1 then
+			nid_a = stalids[biome][1][1]
+			nid_b = stalids[biome][1][2]
+		else
+			nid_a = stalids[biome][2][1]
+			nid_b = stalids[biome][2][2]
+		end
+	end
 
 	local top = math.random(5,H_CRY) --grab a random height for the stalagmite
 	for j = 0, top do --y

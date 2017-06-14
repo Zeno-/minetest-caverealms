@@ -86,7 +86,7 @@ minetest.register_node("caverealms:thin_ice", {
 
 --alternate version for stalactites
 minetest.register_node("caverealms:hanging_thin_ice", {
-	description = "Thin Ice",
+	description = "Thin Ice (hanging)",
 	tiles = {"caverealms_thin_ice.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
